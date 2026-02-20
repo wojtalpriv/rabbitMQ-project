@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="firstService/firstService.csproj" />
+  <Project Path="secondService/secondService.csproj" />
+</Solution>
