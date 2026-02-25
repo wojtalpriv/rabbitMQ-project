@@ -9,7 +9,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("DbConnection"));
 });
-builder.Services.AddSingleton<IUserMessagePublisher, RabbitMqUserMessagePublisher>();
 
 builder.Services.AddSingleton<IUserMessagePublisher, RabbitMqUserMessagePublisher>();
 

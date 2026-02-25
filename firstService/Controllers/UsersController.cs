@@ -19,14 +19,14 @@ namespace firstService.Controllers
             _messagePublisher = messagePublisher;
         }
 
-        //do przeniesienia do secondService
+        // endpoint zostawiony do testów
         [HttpGet]
         public async Task<List<Users>> Get()
         {
             return await _dbContext.Users.ToListAsync();
         }
 
-        //do przeniesienia do secondService
+        // endpoint zostawiony do testów
         [HttpGet("{id}")]
         public async Task<Users?> GetById(int id)
         {
@@ -40,6 +40,10 @@ namespace firstService.Controllers
                 string.IsNullOrWhiteSpace(user.Password))
             {
                 return BadRequest("Invallid Request");
+            }
+            else if (_dbContext.Users.Any(x => x.UserName == user.UserName))
+            {
+                return BadRequest("Login taken!");
             }
             await _dbContext.Users.AddAsync(user);
             await _dbContext.SaveChangesAsync();
