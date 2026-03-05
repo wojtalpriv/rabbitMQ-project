@@ -45,7 +45,7 @@ export default function Home() {
 
     setMessage("");
     setUserData(null);
-    
+
     const resoult = await sendData(username, password);
 
     if (!resoult.success) {
@@ -58,36 +58,46 @@ export default function Home() {
     if (data) {
       setUserData(data);
     }
-
-
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className="bg-white dark:bg-gray-800 flex justify-center items-center w-screen h-screen">
+      <form
+        className="flex flex-col justify-around max-w-2xs h-28 items-center"
+        onSubmit={handleSubmit}
+      >
         <input
+          className="border-2 border-gray-400 rounded-lg placeholder:text-gray-400 text-gray-600"
           id="username"
           type="text"
+          placeholder="username"
           onChange={(e) => setUsername(e.target.value)}
           required
         />
 
         <input
+          className="border-2 border-gray-400 rounded-lg placeholder:text-gray-400 text-gray-600"
           id="password"
           type="password"
+          placeholder="password"
           onChange={(e) => setPassword(e.target.value)}
           required
         />
 
-        <button type="submit">Zapisz dane</button>
+        <button
+          className="bg-blue-400 w-full rounded-lg hover:bg-blue-500"
+          type="submit"
+        >
+          Zapisz dane
+        </button>
       </form>
 
-      {message && (
-        <p>{message}</p>
-      )}
+      {message && <p>{message}</p>}
 
       {userData && (
-        <p>Zapisane dane pobrane z DB2: {userData.userName}:{userData.password}</p>
+        <p>
+          Zapisane dane pobrane z DB2: {userData.userName}:{userData.password}
+        </p>
       )}
     </div>
   );
