@@ -1,5 +1,6 @@
 "use client";
 
+import { ThemeToggle } from "@/component/ThemeToggle";
 import { useState } from "react";
 
 async function sendData(username: string, password: string) {
@@ -61,44 +62,49 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 flex justify-center items-center w-screen h-screen">
-      <form
-        className="flex flex-col justify-around max-w-2xs h-28 items-center"
-        onSubmit={handleSubmit}
-      >
-        <input
-          className="border-2 border-gray-400 rounded-lg placeholder:text-gray-400 text-gray-600"
-          id="username"
-          type="text"
-          placeholder="username"
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-
-        <input
-          className="border-2 border-gray-400 rounded-lg placeholder:text-gray-400 text-gray-600"
-          id="password"
-          type="password"
-          placeholder="password"
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-
-        <button
-          className="bg-blue-400 w-full rounded-lg hover:bg-blue-500"
-          type="submit"
+    <div className="bg-white dark:bg-gray-800 flex flex-col h-screen">
+      <div className="flex justify-end p-4">
+        <ThemeToggle />
+      </div>
+      <div className="flex-1 flex flex-col justify-center items-center">
+        <form
+          className="flex flex-col justify-around max-w-2xs h-28 items-center"
+          onSubmit={handleSubmit}
         >
-          Zapisz dane
-        </button>
-      </form>
+          <input
+            className="border-2 border-gray-400 rounded-lg placeholder:text-gray-400 text-gray-600"
+            id="username"
+            type="text"
+            placeholder="username"
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
 
-      {message && <p>{message}</p>}
+          <input
+            className="border-2 border-gray-400 rounded-lg placeholder:text-gray-400 text-gray-600"
+            id="password"
+            type="password"
+            placeholder="password"
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-      {userData && (
-        <p>
-          Zapisane dane pobrane z DB2: {userData.userName}:{userData.password}
-        </p>
-      )}
+          <button
+            className="bg-blue-400 w-full rounded-lg hover:bg-blue-500"
+            type="submit"
+          >
+            Zapisz dane
+          </button>
+        </form>
+
+        {message && <p className="text-gray-600">{message}</p>}
+
+        {userData && (
+          <p className="text-gray-600">
+            Zapisane dane pobrane z DB2: {userData.userName}:{userData.password}
+          </p>
+        )}
+      </div>
     </div>
   );
 }
