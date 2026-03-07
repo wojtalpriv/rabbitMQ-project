@@ -2,17 +2,22 @@
 
 import { ThemeToggle } from "@/component/ThemeToggle";
 import { useState } from "react";
+import { z } from "zod";
 
-async function sendData(username: string, password: string) {
+const userSchema = z.object({
+  userName: z.string().min(3).max(10),
+  password: z.string().min(6).max(25),
+});
+
+type User = z.infer<typeof userSchema>;
+
+async function sendData(userData: User) {
   const res = await fetch("https://localhost:7246/api/users", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      UserName: username,
-      Password: password,
-    }),
+    body: JSON.stringify(userData),
   });
   const text = await res.text();
   console.log(text);
@@ -30,15 +35,10 @@ async function getData(username: string) {
   return data;
 }
 
-interface UserData {
-  userName: string;
-  password: string;
-}
-
 export default function Home() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [userData, setUserData] = useState<UserData | null>(null);
+  const [userData, setUserData] = useState<User | null>(null);
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -47,7 +47,22 @@ export default function Home() {
     setMessage("");
     setUserData(null);
 
-    const resoult = await sendData(username, password);
+    let validatedData: User;
+
+    try {
+      validatedData = await userSchema.parse({
+        userName: username,
+        password: password,
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        console.log(error.issues[0]);
+        console.log(error.issues[0].path[0]);
+        setMessage(`${(error.issues[0].path[0]).toString()}: ${error.issues[0].message}`);
+      }
+      return;
+    }
+    const resoult = await sendData(validatedData);
 
     if (!resoult.success) {
       setMessage(resoult.message);
