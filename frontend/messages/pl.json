@@ -1,0 +1,11 @@
+{
+  "LoginPage": {
+    "usernamePlaceholder": "login",
+    "passwordPlaceholder": "haslo",
+    "loginButton": "Zapisz Dane"
+  },
+  "Components": {
+    "themeDark": "Ciemny",
+    "themeLight": "Jasny"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "LoginPage": {
+    "usernamePlaceholder": "username",
+    "passwordPlaceholder": "password",
+    "loginButton": "Save Data"
+  },
+  "Components": {
+    "themeDark": "Dark",
+    "themeLight": "Light"
+  }
+}

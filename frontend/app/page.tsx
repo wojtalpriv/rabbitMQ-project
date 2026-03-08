@@ -1,15 +1,12 @@
 "use client";
 
 import { ThemeToggle } from "@/component/ThemeToggle";
+import { LangToggle } from "@/component/LangToggle";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { z } from "zod";
+import { userSchema, type User } from "@/schemas/userSchema";
 
-const userSchema = z.object({
-  userName: z.string().min(3).max(10),
-  password: z.string().min(6).max(25),
-});
-
-type User = z.infer<typeof userSchema>;
 
 async function sendData(userData: User) {
   const res = await fetch("https://localhost:7246/api/users", {
@@ -40,6 +37,7 @@ export default function Home() {
   const [password, setPassword] = useState("");
   const [userData, setUserData] = useState<User | null>(null);
   const [message, setMessage] = useState("");
+  const t = useTranslations("LoginPage");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -80,6 +78,7 @@ export default function Home() {
     <div className="bg-white dark:bg-gray-800 flex flex-col h-screen">
       <div className="flex justify-end p-4">
         <ThemeToggle />
+        <LangToggle/>
       </div>
       <div className="flex-1 flex flex-col justify-center items-center">
         <form
@@ -90,7 +89,7 @@ export default function Home() {
             className="border-2 border-gray-400 rounded-lg placeholder:text-gray-400 text-gray-600"
             id="username"
             type="text"
-            placeholder="username"
+            placeholder={t("usernamePlaceholder")}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
@@ -99,7 +98,7 @@ export default function Home() {
             className="border-2 border-gray-400 rounded-lg placeholder:text-gray-400 text-gray-600"
             id="password"
             type="password"
-            placeholder="password"
+            placeholder={t("passwordPlaceholder")}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
@@ -108,7 +107,7 @@ export default function Home() {
             className="bg-blue-400 w-full rounded-lg hover:bg-blue-500"
             type="submit"
           >
-            Zapisz dane
+            {t("loginButton")}
           </button>
         </form>
 

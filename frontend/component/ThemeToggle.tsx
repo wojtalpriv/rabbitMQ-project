@@ -1,8 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 
 export function ThemeToggle() {
   const [dark, setDark] = useState(false);
+  const t = useTranslations("Components");
 
   useEffect(() => {
     const saved = localStorage.getItem("theme");
@@ -25,9 +27,9 @@ export function ThemeToggle() {
   return (
     <button
       onClick={toggle}
-      className="rounded-lg bg-gray-200 text-gray-800 px-4 py-2 dark:bg-gray-700 dark:text-white"
+      className="rounded-lg bg-gray-200 text-gray-800 px-4 py-2 mr-1 dark:bg-gray-700 dark:text-white"
     >
-      {dark ? "☀️ Light" : "🌙 Dark"}
+      {dark ? t("themeLight") : t("themeDark")}
     </button>
   );
 }
