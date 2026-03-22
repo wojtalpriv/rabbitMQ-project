@@ -1,29 +1,38 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useLocale } from "next-intl";
+import { useRouter, usePathname } from "@/i18n/navigation";
+import { useLocaleStore } from "@/component/LangToggle/store/stores";
 
 export function LangToggle() {
-  const initialLang = useLocale();
-  const [lang, setLang] = useState(initialLang);
+  const nextIntlLocale = useLocale();
+
   const router = useRouter();
+  const pathname = usePathname();
 
-  const toggle = () => {
-    const newLang = lang === "pl" ? "en" : "pl";
-    setLang(newLang);
+  const locale = useLocaleStore((s) => s.locale);
+  const isHydrated = useLocaleStore((s) => s.isHydrated);
+  const setLocale = useLocaleStore((s) => s.setLocale);
+  const toggleLocale = useLocaleStore((s) => s.toggleLocale);
 
-    document.cookie = `locale=${newLang}; path=/; max-age=31536000`;
+  useEffect(() => {
+    setLocale(nextIntlLocale as "pl" | "en");
+  }, [nextIntlLocale, setLocale]);
 
-    router.refresh();
+  const handleToggle = () => {
+    const newLocale = toggleLocale();
+    router.replace(pathname, { locale: newLocale });
   };
+
+  if (!isHydrated) return null;
 
   return (
     <button
-      onClick={toggle}
+      onClick={handleToggle}
       className="rounded-lg bg-gray-200 text-gray-800 px-4 py-2 mr-1 dark:bg-gray-700 dark:text-white"
     >
-      {lang === "pl" ? "EN" : "PL"}
+      {locale === "pl" ? "EN" : "PL"}
     </button>
   );
 }

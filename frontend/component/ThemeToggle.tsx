@@ -1,32 +1,28 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useTranslations } from "next-intl";
+import { useThemeStore } from "./ThemeToggle/store/stores";
 
 export function ThemeToggle() {
-  const [dark, setDark] = useState(false);
   const t = useTranslations("Components");
 
+  const dark = useThemeStore((s) => s.dark);
+  const isHydrated = useThemeStore((s) => s.isHydrated);
+  const initTheme = useThemeStore((s) => s.initTheme);
+  const toggleTheme = useThemeStore((s) => s.toggleTheme);
+
   useEffect(() => {
-    const saved = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)",
-    ).matches;
-    const isDark = saved === "dark" || (!saved && prefersDark);
+    if (!isHydrated) {
+      initTheme();
+    }
+  }, [isHydrated, initTheme]);
 
-    setDark(isDark);
-    document.documentElement.classList.toggle("dark", isDark);
-  }, []);
 
-  const toggle = () => {
-    const newDark = !dark;
-    setDark(newDark);
-    document.documentElement.classList.toggle("dark", newDark);
-    localStorage.setItem("theme", newDark ? "dark" : "light");
-  };
+  if (!isHydrated) return null;
 
   return (
     <button
-      onClick={toggle}
+      onClick={toggleTheme}
       className="rounded-lg bg-gray-200 text-gray-800 px-4 py-2 mr-1 dark:bg-gray-700 dark:text-white"
     >
       {dark ? t("themeLight") : t("themeDark")}

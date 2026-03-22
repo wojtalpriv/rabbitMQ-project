@@ -1,0 +1,31 @@
+﻿{
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:3005"
+  },
+  "Routes": [
+    {
+      "UpstreamHttpMethod": [ "Post" ],
+      "UpstreamPathTemplate": "/ocelot/users",
+      "DownstreamPathTemplate": "/api/users",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7246
+        }
+      ]
+    },
+    {
+      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamPathTemplate": "/ocelot/users/{username}",
+      "DownstreamPathTemplate": "/api/users/{username}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7017
+        }
+      ]
+    }
+  ]
+}
