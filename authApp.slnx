@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="firstService.Test/firstService.Test.csproj" Id="9099f76c-1875-45ae-8a1e-abee998eacb4" />
   <Project Path="firstService/firstService.csproj" />
   <Project Path="ocelotGateway/ocelotGateway.csproj" Id="6441ce79-6ae7-42bb-a56f-cc40e2c2e14b" />
   <Project Path="secondService/secondService.csproj" />
