@@ -28,9 +28,19 @@ namespace firstService.Controllers
 
         // endpoint zostawiony do testów
         [HttpGet("{id}")]
-        public async Task<Users?> GetById(int id)
+        public async Task<ActionResult> GetById(int id)
         {
-            return await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+            if (user == null)
+            {
+                return NotFound("Not Found!");
+            }
+
+            return Ok(new
+            {
+                id = user.Id,
+                userName = user.UserName
+            });
         }
 
         [HttpPost]

@@ -17,6 +17,18 @@
     },
     {
       "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamPathTemplate": "/ocelot/getbyid/{id}",
+      "DownstreamPathTemplate": "/api/users/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7246
+        }
+      ]
+    },
+    {
+      "UpstreamHttpMethod": [ "Get" ],
       "UpstreamPathTemplate": "/ocelot/users/{username}",
       "DownstreamPathTemplate": "/api/users/{username}",
       "DownstreamScheme": "https",

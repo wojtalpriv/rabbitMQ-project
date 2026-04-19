@@ -21,3 +21,15 @@ export async function getData(username: string) {
   const data = await res.json();
   return data;
 }
+
+
+export async function getUserByID(userId: number) {
+  const res = await fetch(`https://localhost:3005/ocelot/getbyid/${userId}`);
+  if (!res.ok){
+    const error = await res.text();
+    return { success: false, message: error };
+  }
+  const data = await res.json();
+      return { success: true, message: data };
+
+}
