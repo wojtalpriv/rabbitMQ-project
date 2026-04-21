@@ -1,6 +1,7 @@
 using firstService.Data;
 using firstService.Service;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.FeatureManagement;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 
 builder.Services.AddSingleton<IUserMessagePublisher, RabbitMqUserMessagePublisher>();
+
+builder.Services.AddFeatureManagement();
 
 builder.Services.AddCors(options =>
 {

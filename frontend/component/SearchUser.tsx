@@ -6,6 +6,7 @@ export function SearchUser() {
   const t = useTranslations("DataPage");
 
   const username = useSearchUser((s) => s.username);
+  const generationDate = useSearchUser((s) => s.generationDate);
 
   const setUserId = useSearchUser((s) => s.setUserId);
   const submitSearch = useSearchUser((s) => s.submitSearch);
@@ -41,6 +42,7 @@ export function SearchUser() {
       </form>
 
       {username && <p className="text-gray-600" data-testid="username">{username}</p>}
+      {generationDate && <p className="text-gray-600">Generated at: {generationDate}</p>}
 
     </div>
   );

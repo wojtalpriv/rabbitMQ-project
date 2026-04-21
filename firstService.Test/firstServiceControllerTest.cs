@@ -4,6 +4,7 @@ using firstService.Models.Entities;
 using firstService.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.FeatureManagement;
 using Moq;
 
 namespace firstService.Test
@@ -12,6 +13,7 @@ namespace firstService.Test
     {
         private readonly AppDbContext _dbContext;
         private readonly Mock<IUserMessagePublisher> _mockPublisher;
+        private readonly Mock<IFeatureManager> _mockFeatureManager;
         private readonly UsersController _controller;
 
         public UsersControllerCreateTest()
@@ -24,7 +26,9 @@ namespace firstService.Test
 
             _mockPublisher = new Mock<IUserMessagePublisher>();
 
-            _controller = new UsersController(_dbContext, _mockPublisher.Object);
+            _mockFeatureManager = new Mock<IFeatureManager>();
+
+            _controller = new UsersController(_dbContext, _mockPublisher.Object, _mockFeatureManager.Object);
         }
 
         public void Dispose()

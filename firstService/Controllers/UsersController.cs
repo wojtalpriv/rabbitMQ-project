@@ -4,6 +4,7 @@ using firstService.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.FeatureManagement;
 namespace firstService.Controllers
 {
     [Route("api/[controller]")]
@@ -12,11 +13,13 @@ namespace firstService.Controllers
     {
         private readonly AppDbContext _dbContext;
         private readonly IUserMessagePublisher _messagePublisher;
+        private readonly IFeatureManager _featureManager;
 
-        public UsersController(AppDbContext dbContext, IUserMessagePublisher messagePublisher)
+        public UsersController(AppDbContext dbContext, IUserMessagePublisher messagePublisher, IFeatureManager featureManager)
         {
             _dbContext = dbContext;
             _messagePublisher = messagePublisher;
+            _featureManager = featureManager;
         }
 
         // endpoint zostawiony do testów
@@ -35,6 +38,17 @@ namespace firstService.Controllers
             {
                 return NotFound("Not Found!");
             }
+
+            if (await _featureManager.IsEnabledAsync("IncludeDateInResponse"))
+            {
+                return Ok(new
+                {
+                    id = user.Id,
+                    userName = user.UserName,
+                    generationDate = DateTime.UtcNow
+                });
+            }
+
 
             return Ok(new
             {
